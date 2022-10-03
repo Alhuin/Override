@@ -72,8 +72,10 @@ Le mot de passe est hardcodé à <main+83>: `5276`
 ***********************************
 * 	     -Level00 -		  *
 ***********************************
-Password:5276
-
+Password:
+```
+`5276`
+```
 Authenticated!
 $
 ```
