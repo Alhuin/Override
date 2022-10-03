@@ -9,7 +9,11 @@
 ***********************************
 Password:
 ```
+  `test`
+```
 
+Invalid Password!
+```
 ## Gdb
 
 `info function`
@@ -21,7 +25,7 @@ Password:
 
 
 `disas main`
-```
+```asm
 Dump of assembler code for function main:
    0x08048494 <+0>:	push   ebp
    0x08048495 <+1>:	mov    ebp,esp
