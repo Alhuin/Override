@@ -64,7 +64,7 @@ End of assembler dump.
   
 # Exploit
 
-Le mot de passe est hardcodé à <main+83>: `5276`
+On trouve le mot de passe à <main+83>: `5276`
 
 `./level00`
 
