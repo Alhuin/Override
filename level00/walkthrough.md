@@ -44,10 +44,10 @@ Dump of assembler code for function main:
    0x080484d3 <+63>:	lea    edx,[esp+0x1c]
    0x080484d7 <+67>:	mov    DWORD PTR [esp+0x4],edx
    0x080484db <+71>:	mov    DWORD PTR [esp],eax
-   0x080484de <+74>:	call   0x80483d0 <__isoc99_scanf@plt>   ; scanf("%d", buffer);
+   0x080484de <+74>:	call   0x80483d0 <__isoc99_scanf@plt>   ; scanf("%d", input);
    0x080484e3 <+79>:	mov    eax,DWORD PTR [esp+0x1c]
    0x080484e7 <+83>:	cmp    eax,0x149c                       
-   0x080484ec <+88>:	jne    0x804850d <main+121>             ; si buffer != 5276:  jump à <+121>
+   0x080484ec <+88>:	jne    0x804850d <main+121>             ; si input != 5276:  jump à <+121>
    0x080484ee <+90>:	mov    DWORD PTR [esp],0x8048639
    0x080484f5 <+97>:	call   0x8048390 <puts@plt>             ; puts("\nAuthenticated!");
    0x080484fa <+102>:	mov    DWORD PTR [esp],0x8048649
