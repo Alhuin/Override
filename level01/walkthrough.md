@@ -51,11 +51,11 @@ Dump of assembler code for function main:
    0x08048515 <+69>:	mov    DWORD PTR [esp+0x8],eax
    0x08048519 <+73>:	mov    DWORD PTR [esp+0x4],0x100
    0x08048521 <+81>:	mov    DWORD PTR [esp],0x804a040
-   0x08048528 <+88>:	call   0x8048370 <fgets@plt>
+   0x08048528 <+88>:	call   0x8048370 <fgets@plt>            ; fgets(<a_user_name>, 256, <stdin>);
    0x0804852d <+93>:	call   0x8048464 <verify_user_name>
    0x08048532 <+98>:	mov    DWORD PTR [esp+0x5c],eax
    0x08048536 <+102>:	cmp    DWORD PTR [esp+0x5c],0x0
-   0x0804853b <+107>:	je     0x8048550 <main+128>             ; if verify_user_name(fgets(<a_user_name>, 256, <stdin>)) == 0:   jump à <+128>  
+   0x0804853b <+107>:	je     0x8048550 <main+128>             ; if verify_user_name() == 0:   jump à <+128>  
    0x0804853d <+109>:	mov    DWORD PTR [esp],0x80486f0
    0x08048544 <+116>:	call   0x8048380 <puts@plt>             ; puts("nope, incorrect username...\n");
    0x08048549 <+121>:	mov    eax,0x1
