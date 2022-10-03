@@ -40,13 +40,13 @@ Dump of assembler code for function main:
    0x080484e4 <+20>:	mov    edx,0x10
    0x080484e9 <+25>:	mov    edi,ebx
    0x080484eb <+27>:	mov    ecx,edx
-   0x080484ed <+29>:	rep stos DWORD PTR es:[edi],eax
+   0x080484ed <+29>:	rep stos DWORD PTR es:[edi],eax         ; memset(buffer, 0, 16);
    0x080484ef <+31>:	mov    DWORD PTR [esp+0x5c],0x0
    0x080484f7 <+39>:	mov    DWORD PTR [esp],0x80486b8
-   0x080484fe <+46>:	call   0x8048380 <puts@plt>
+   0x080484fe <+46>:	call   0x8048380 <puts@plt>             ; puts("********* ADMIN LOGIN PROMPT *********");
    0x08048503 <+51>:	mov    eax,0x80486df
    0x08048508 <+56>:	mov    DWORD PTR [esp],eax
-   0x0804850b <+59>:	call   0x8048360 <printf@plt>
+   0x0804850b <+59>:	call   0x8048360 <printf@plt>           ; printf("Enter Username: ");
    0x08048510 <+64>:	mov    eax,ds:0x804a020
    0x08048515 <+69>:	mov    DWORD PTR [esp+0x8],eax
    0x08048519 <+73>:	mov    DWORD PTR [esp+0x4],0x100
@@ -55,31 +55,31 @@ Dump of assembler code for function main:
    0x0804852d <+93>:	call   0x8048464 <verify_user_name>
    0x08048532 <+98>:	mov    DWORD PTR [esp+0x5c],eax
    0x08048536 <+102>:	cmp    DWORD PTR [esp+0x5c],0x0
-   0x0804853b <+107>:	je     0x8048550 <main+128>
+   0x0804853b <+107>:	je     0x8048550 <main+128>             ; if verify_user_name(fgets(<a_user_name>, 256, <stdin>)) == 0:   jump à <+128>  
    0x0804853d <+109>:	mov    DWORD PTR [esp],0x80486f0
-   0x08048544 <+116>:	call   0x8048380 <puts@plt>
+   0x08048544 <+116>:	call   0x8048380 <puts@plt>             ; puts("nope, incorrect username...\n");
    0x08048549 <+121>:	mov    eax,0x1
-   0x0804854e <+126>:	jmp    0x80485af <main+223>
+   0x0804854e <+126>:	jmp    0x80485af <main+223>             ; jump à <+223>
    0x08048550 <+128>:	mov    DWORD PTR [esp],0x804870d
-   0x08048557 <+135>:	call   0x8048380 <puts@plt>
+   0x08048557 <+135>:	call   0x8048380 <puts@plt>             ; puts("Enter Password: ");
    0x0804855c <+140>:	mov    eax,ds:0x804a020
    0x08048561 <+145>:	mov    DWORD PTR [esp+0x8],eax
    0x08048565 <+149>:	mov    DWORD PTR [esp+0x4],0x64
    0x0804856d <+157>:	lea    eax,[esp+0x1c]
    0x08048571 <+161>:	mov    DWORD PTR [esp],eax
-   0x08048574 <+164>:	call   0x8048370 <fgets@plt>
+   0x08048574 <+164>:	call   0x8048370 <fgets@plt>            ; fgets(buffer, 100, <stdin>);
    0x08048579 <+169>:	lea    eax,[esp+0x1c]
    0x0804857d <+173>:	mov    DWORD PTR [esp],eax
-   0x08048580 <+176>:	call   0x80484a3 <verify_user_pass>
+   0x08048580 <+176>:	call   0x80484a3 <verify_user_pass>     
    0x08048585 <+181>:	mov    DWORD PTR [esp+0x5c],eax
    0x08048589 <+185>:	cmp    DWORD PTR [esp+0x5c],0x0
-   0x0804858e <+190>:	je     0x8048597 <main+199>
+   0x0804858e <+190>:	je     0x8048597 <main+199>             ; if verify_user_pass(buffer) == 0:   jump à <+199>
    0x08048590 <+192>:	cmp    DWORD PTR [esp+0x5c],0x0
-   0x08048595 <+197>:	je     0x80485aa <main+218>
+   0x08048595 <+197>:	je     0x80485aa <main+218>             ; idem mais jump à <+218>
    0x08048597 <+199>:	mov    DWORD PTR [esp],0x804871e
-   0x0804859e <+206>:	call   0x8048380 <puts@plt>
+   0x0804859e <+206>:	call   0x8048380 <puts@plt>             ; puts("nope, incorrect password...\n");
    0x080485a3 <+211>:	mov    eax,0x1
-   0x080485a8 <+216>:	jmp    0x80485af <main+223>
+   0x080485a8 <+216>:	jmp    0x80485af <main+223>             ; jump à <+223>
    0x080485aa <+218>:	mov    eax,0x0
    0x080485af <+223>:	lea    esp,[ebp-0x8]
    0x080485b2 <+226>:	pop    ebx
@@ -98,13 +98,13 @@ Dump of assembler code for function verify_user_name:
    0x08048468 <+4>:	push   esi
    0x08048469 <+5>:	sub    esp,0x10
    0x0804846c <+8>:	mov    DWORD PTR [esp],0x8048690
-   0x08048473 <+15>:	call   0x8048380 <puts@plt>
+   0x08048473 <+15>:	call   0x8048380 <puts@plt>                       ; puts("verifying username....\n");
    0x08048478 <+20>:	mov    edx,0x804a040
    0x0804847d <+25>:	mov    eax,0x80486a8
    0x08048482 <+30>:	mov    ecx,0x7
    0x08048487 <+35>:	mov    esi,edx
    0x08048489 <+37>:	mov    edi,eax
-   0x0804848b <+39>:	repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]
+   0x0804848b <+39>:	repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]     ; return strcmp("dat_wil", <a_user_name>);
    0x0804848d <+41>:	seta   dl
    0x08048490 <+44>:	setb   al
    0x08048493 <+47>:	mov    ecx,edx
@@ -132,7 +132,7 @@ Dump of assembler code for function verify_user_pass:
    0x080484b2 <+15>:	mov    ecx,0x5
    0x080484b7 <+20>:	mov    esi,edx
    0x080484b9 <+22>:	mov    edi,eax
-   0x080484bb <+24>:	repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]
+   0x080484bb <+24>:	repz cmps BYTE PTR ds:[esi],BYTE PTR es:[edi]     ; return strcmp("admin", argv[1]);
    0x080484bd <+26>:	seta   dl
    0x080484c0 <+29>:	setb   al
    0x080484c3 <+32>:	mov    ecx,edx
@@ -147,3 +147,16 @@ End of assembler dump.
 ```
 
 # Exploit
+
+Le programme compare le username fourni avec "dat_wil", puis le password fourni avec "admin".
+`./level01`
+```
+********* ADMIN LOGIN PROMPT *********
+Enter Username: dat_wil
+verifying username....
+
+Enter Password:
+admin
+nope, incorrect password...
+```
+Quel que soit le mot de passe, il affiche "nope, incorrect password..." et return, puis de toutes façons à aucun moment il ne nous affiche le fichier .pass ou nous ouvre un shell, donc on va devoir se débrouiller tout seul.
