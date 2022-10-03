@@ -75,9 +75,9 @@ Le mot de passe est hardcodé à <main+83>: `5276`
 Password:5276
 
 Authenticated!
-$ whoami
-level01
-$ cat /home/users/level01/.pass
-uSq2ehEGT6c9S24zbshexZQBXUGrncxn5sD5QfGL
+$
 ```
-  
+`cat /home/users/level01/.pass`
+```
+uSq2ehEGT6c9S24zbshexZQBXUGrncxn5sD5QfGL 
+```
