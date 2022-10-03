@@ -148,7 +148,7 @@ End of assembler dump.
 
 # Exploit
 
-Le programme compare le username fourni avec "dat_wil", puis le password fourni avec "admin".<br/>
+Le programme compare le username fourni avec "dat_wil", puis le password fourni avec "admin".<br/><br/>
 `./level01`
 ```
 ********* ADMIN LOGIN PROMPT *********
