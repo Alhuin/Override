@@ -34,7 +34,7 @@ test does not have access!
 Dump of assembler code for function main:
    0x0000000000400814 <+0>:	push   rbp
    0x0000000000400815 <+1>:	mov    rbp,rsp
-   0x0000000000400818 <+4>:	sub    rsp,0x120                        ; 120 octets pout la stack
+   0x0000000000400818 <+4>:	sub    rsp,0x120                      ; 120 octets pout la stack
    0x000000000040081f <+11>:	mov    DWORD PTR [rbp-0x114],edi      ; argc
    0x0000000000400825 <+17>:	mov    QWORD PTR [rbp-0x120],rsi      ; argv
    0x000000000040082c <+24>:	lea    rdx,[rbp-0x70]                 ; buffer_a  @ rbp - 0x70
