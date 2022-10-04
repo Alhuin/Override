@@ -71,7 +71,7 @@ Dump of assembler code for function main:
    0x00000000004008ad <+153>:	mov    QWORD PTR [rbp-0x8],rax
    0x00000000004008b1 <+157>:	cmp    QWORD PTR [rbp-0x8],0x0
    0x00000000004008b6 <+162>:	jne    0x4008e6 <main+210>            ; if fd != 0:  jump à <+210>
-   0x00000000004008b8 <+164>:	mov    rax,QWORD PTR [rip+0x200991]   ; <stderr@@GLIBC_2.2.5>
+   0x00000000004008b8 <+164>:	mov    rax,QWORD PTR [rip+0x200991]        # 0x601250 <stderr@@GLIBC_2.2.5>
    0x00000000004008bf <+171>:	mov    rdx,rax
    0x00000000004008c2 <+174>:	mov    eax,0x400bd0
    0x00000000004008c7 <+179>:	mov    rcx,rdx
@@ -96,7 +96,7 @@ Dump of assembler code for function main:
    0x000000000040091d <+265>:	mov    BYTE PTR [rbp+rax*1-0xa0],0x0  ; buffer_b[index] = 0;
    0x0000000000400925 <+273>:	cmp    DWORD PTR [rbp-0xc],0x29
    0x0000000000400929 <+277>:	je     0x40097d <main+361>            ; if b_size == 41:  jump à <+361>
-   0x000000000040092b <+279>:	mov    rax,QWORD PTR [rip+0x20091e]   ; <stderr@@GLIBC_2.2.5>
+   0x000000000040092b <+279>:	mov    rax,QWORD PTR [rip+0x20091e]        # 0x601250 <stderr@@GLIBC_2.2.5>
    0x0000000000400932 <+286>:	mov    rdx,rax
    0x0000000000400935 <+289>:	mov    eax,0x400bf8
    0x000000000040093a <+294>:	mov    rcx,rdx
@@ -104,7 +104,7 @@ Dump of assembler code for function main:
    0x0000000000400942 <+302>:	mov    esi,0x1
    0x0000000000400947 <+307>:	mov    rdi,rax
    0x000000000040094a <+310>:	call   0x400720 <fwrite@plt>          ; fwrite("ERROR: failed to read password file\n", 1, 36, stderr);
-   0x000000000040094f <+315>:	mov    rax,QWORD PTR [rip+0x2008fa]   ; <stderr@@GLIBC_2.2.5>
+   0x000000000040094f <+315>:	mov    rax,QWORD PTR [rip+0x2008fa]        # 0x601250 <stderr@@GLIBC_2.2.5>
    0x0000000000400956 <+322>:	mov    rdx,rax
    0x0000000000400959 <+325>:	mov    eax,0x400bf8
    0x000000000040095e <+330>:	mov    rcx,rdx
@@ -129,7 +129,7 @@ Dump of assembler code for function main:
    0x00000000004009b6 <+418>:	mov    rdi,rax
    0x00000000004009b9 <+421>:	mov    eax,0x0
    0x00000000004009be <+426>:	call   0x4006c0 <printf@plt>          ; printf("--[ Username: ");
-   0x00000000004009c3 <+431>:	mov    rax,QWORD PTR [rip+0x20087e]   ; <stdin@@GLIBC_2.2.5>
+   0x00000000004009c3 <+431>:	mov    rax,QWORD PTR [rip+0x20087e]        # 0x601248 <stdin@@GLIBC_2.2.5>
    0x00000000004009ca <+438>:	mov    rdx,rax
    0x00000000004009cd <+441>:	lea    rax,[rbp-0x70]
    0x00000000004009d1 <+445>:	mov    esi,0x64
@@ -144,7 +144,7 @@ Dump of assembler code for function main:
    0x00000000004009f9 <+485>:	mov    rdi,rax
    0x00000000004009fc <+488>:	mov    eax,0x0
    0x0000000000400a01 <+493>:	call   0x4006c0 <printf@plt>          ; printf("--[ Password: ");
-   0x0000000000400a06 <+498>:	mov    rax,QWORD PTR [rip+0x20083b]   ; <stdin@@GLIBC_2.2.5>
+   0x0000000000400a06 <+498>:	mov    rax,QWORD PTR [rip+0x20083b]        # 0x601248 <stdin@@GLIBC_2.2.5>
    0x0000000000400a0d <+505>:	mov    rdx,rax
    0x0000000000400a10 <+508>:	lea    rax,[rbp-0x110]
    0x0000000000400a17 <+515>:	mov    esi,0x64
