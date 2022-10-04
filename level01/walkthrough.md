@@ -164,7 +164,7 @@ Quel que soit le mot de passe, il affiche "nope, incorrect password..." et retur
 A la différence de RainFall, OverRide nous propose une iso avec un protection sur la stack: celle-ci est [non-exécutable](https://www.usenix.org/legacy/publications/library/proceedings/sec98/full_papers/full_papers/cowan/cowan_html/node21.html):
 ```
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
-Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   /home/users/level00/level00
+Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   /home/users/level01/level01
 ```
 
 Comme nous ne pouvons plus exécuter le shellcode situé sur la stack, nous allons changer notre technique, et nous allons appeler directement la fonction system() de la libc, en lui fournissant comme argument la chaine de caractère "/bin/sh".<br/>
