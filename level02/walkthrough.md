@@ -194,7 +194,7 @@ Le programme attend en input un nom d'utilisateur et un mot de passe, compare le
 Par contre, printf à <+654> est vulnérable à un [exploit format string](https://axcheron.github.io/exploit-101-format-strings/) puisqu'il prend uniquement en paramètre le username que nous contrôlons.
 On devrait pouvoir afficher ainsi le contenu du fichier .pass qui se trouve sur la stack.
 Puisque c'est un binaire 64bits, printf va lire les arguments sur la stack tous les 8 octets et nous savons que le token fait 40 caractères.
-Nous allons donc devoir demander 40 / 8 = 5 paramètres à printf pour afficher complètement notre token, reste à savoir à partir de combien de paramètres !
+Nous allons donc devoir afficher 40 / 8 = 5 paramètres consécutifs à printf pour obtenir notre token complet, reste à savoir à partir de combien de paramètres !
 
 - La stack fait 0x120 = 288 octets
 - Le buffer qui nous intéresse se situe à rbp - 0xa0 (160) = rsp + 128
