@@ -9,7 +9,7 @@ int main(int argc, char **argv){
 
     memset(&username, 0, 12);
     memset(&token, 5, 12);
-    memset(&username, 0, 12);
+    memset(&password, 0, 12);
 
     fd = fopen("/home/users/level03/.pass", "r")
     
@@ -18,10 +18,10 @@ int main(int argc, char **argv){
         exit(1);
     }
     
-    size = fread(&token, 1, 41, fd);
+    token_size = fread(&token, 1, 41, fd);
     token[strcspn(token, "\n)] = 0;
     
-    if (size != 41) {
+    if (token_size != 41) {
         fwrite("ERROR: failed to read password file\n", 1, 36, stderr);
         fwrite("ERROR: failed to read password file\n", 1, 36, stderr);
         exit(1);
