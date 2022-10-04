@@ -186,5 +186,5 @@ Dump of assembler code for function main:
    0x0000000000400ab6 <+674>:	call   0x400710 <exit@plt>            ; exit(1);
 End of assembler dump.
 ```
-
+C'est un binaire 64bits, donc la 'calling convention' est différente d'un binaire 32 bits: on passe les arguments par les registres et non par la stack. (cf. "A.2.1 Calling Conventions", p.123 de la [documentation](https://refspecs.linuxfoundation.org/elf/x86_64-abi-0.99.pdf)).
 # Exploit
