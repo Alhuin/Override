@@ -43,7 +43,7 @@ int main(int argc, char **argv){
     
     puts("*****************************************");
     
-    if (strncmp(token, password) == 0) {
+    if (strncmp(token, password, 41) == 0) {
         printf("Greetings, %s!\n", username);
         system("/bin/sh");
         return(0);
