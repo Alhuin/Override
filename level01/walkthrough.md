@@ -75,11 +75,11 @@ Dump of assembler code for function main:
    0x08048589 <+185>:	cmp    DWORD PTR [esp+0x5c],0x0
    0x0804858e <+190>:	je     0x8048597 <main+199>             ; if verify_user_pass(buffer) == 0:   jump à <+199>
    0x08048590 <+192>:	cmp    DWORD PTR [esp+0x5c],0x0
-   0x08048595 <+197>:	je     0x80485aa <main+218>             ; idem mais jump à <+218>
+   0x08048595 <+197>:	je     0x80485aa <main+218>             ; idem mais jump à <+218> (return(0))
    0x08048597 <+199>:	mov    DWORD PTR [esp],0x804871e
    0x0804859e <+206>:	call   0x8048380 <puts@plt>             ; puts("nope, incorrect password...\n");
    0x080485a3 <+211>:	mov    eax,0x1
-   0x080485a8 <+216>:	jmp    0x80485af <main+223>             ; jump à <+223>
+   0x080485a8 <+216>:	jmp    0x80485af <main+223>             ; jump à <+223> (return(1))
    0x080485aa <+218>:	mov    eax,0x0
    0x080485af <+223>:	lea    esp,[ebp-0x8]
    0x080485b2 <+226>:	pop    ebx
