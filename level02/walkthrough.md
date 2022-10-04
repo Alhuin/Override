@@ -191,10 +191,10 @@ C'est un binaire 64bits, donc la 'calling convention' est différente d'un binai
 
 Le programme attend en input un nom d'utilisateur et un mot de passe, compare le mot de passe avec le contenu du fichier .pass et nous ouvre un shell s'ils sont égaux. Dommage, en passant par gdb on n'a pas les droits pour ouvrir le fichier .pass donc on n'atteint pas la condition.
 
-Par contre, printf à <+654> est vulnérable à un [exploit format string](https://axcheron.github.io/exploit-101-format-strings/) puisqu'il prend uniquement en paramètre le username que nous contrôlons.
-On devrait pouvoir afficher ainsi le contenu du fichier .pass qui se trouve sur la stack.
-Puisque c'est un binaire 64bits, printf va lire les arguments sur la stack tous les 8 octets et nous savons que le token fait 40 caractères.
-Nous allons donc devoir afficher 40 / 8 = 5 paramètres consécutifs à printf pour obtenir notre token complet, reste à savoir à partir de combien de paramètres !
+Par contre, printf à <+654> est vulnérable à un [format string exploit](https://axcheron.github.io/exploit-101-format-strings/) puisqu'il prend uniquement en paramètre le username que nous contrôlons, de cette manière on devrait pouvoir afficher le contenu du fichier .pass qui se trouve sur la stack.
+
+Puisque c'est un binaire 64bits, printf va lire les arguments tous les 8 octets et nous savons que le token fait 40 caractères (41 - le '').
+Nous allons donc devoir afficher 40 / 8 = 5 paramètres consécutifs pour obtenir notre token complet, reste à savoir à partir de combien de paramètres !
 
 - La stack fait 0x120 = 288 octets
 - Le buffer qui nous intéresse se situe à rbp - 0xa0 (160) = rsp + 128
@@ -203,7 +203,7 @@ Nous allons donc devoir afficher 40 / 8 = 5 paramètres consécutifs à printf p
   > User-level applications use as integer registers for passing the sequence %rdi, %rsi, %rdx, %rcx, %r8 and %r9
   - printf va donc d'abord chercher ses arguments parmi ces registres avant d'aller les chercher sur la stack !
 
-Notre token devrait donc être affiché par printf à partir du 22ème argument (128 / 8 + les 6 registres)
+Notre token devrait être affiché par printf à partir du 22ème argument (128 / 8 + les 6 registres).
 
 `./level02`
 ```
