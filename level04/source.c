@@ -17,18 +17,19 @@ int main(void)
     ptrace(0, 0, 0, 0);
     puts("Give me some shellcode, k");
     gets(buffer);
-    return(0);
   }
 
-  while (ret = ptrace(3, pid, 44, 0) != 11) {
-    wait(&status);
-    if (status & 0x7f == 0 || (status & 0x7f) >> 1 <= 0) {
-      puts("child is exiting...");
-      return (0);
+  else {
+    while (ret = ptrace(3, pid, 44, 0) != 11) {
+      wait(&status);
+      if (status & 0x7f == 0 || (status & 0x7f) >> 1 <= 0) {
+        puts("child is exiting...");
+        return (0);
+      }
     }
-  }    
-
-  puts("no exec() for you");
-  kill(pid, 9);
+    puts("no exec() for you");
+    kill(pid, 9);
+  }
+  
   return(0);
 }
