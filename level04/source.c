@@ -18,7 +18,6 @@ int main(void)
     puts("Give me some shellcode, k");
     gets(buffer);
   }
-
   else {
     while (ret = ptrace(3, pid, 44, 0) != 11) {
       wait(&status);
