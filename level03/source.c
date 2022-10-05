@@ -9,12 +9,12 @@ void  decrypt(key)
     int nb2 = 1734767456;
     int nb3 = 2070311806;
     int nb4 = 862026877;
-    char c = 0;                                       // str = "Q}|u`sfg~sf{}|a3" + nul
+    char c = 0;                                       // str = &nb1 = "Q}|u`sfg~sf{}|a3" + nul
 
     int len;
     int i;
 
-    len = strlen(&nb1);                               // strlen(str)
+    len = strlen(&nb1);
     i = 0;
 
     while (i < len) {
