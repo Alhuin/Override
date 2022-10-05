@@ -21,7 +21,7 @@ int main(void)
   else {
     while (ret = ptrace(3, pid, 44, 0) != 11) {
       wait(&status);
-      if (status & 0x7f == 0 || (status & 0x7f) >> 1 <= 0) {
+      if (status & 0x7f) == 0 || (((status & 0x7f) + 1) >> 1) <= 0) {
         puts("child is exiting...");
         return (0);
       }
