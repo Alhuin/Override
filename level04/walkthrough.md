@@ -32,7 +32,7 @@ Dump of assembler code for function main:
    0x080486cd <+5>:	and    esp,0xfffffff0
    0x080486d0 <+8>:	sub    esp,0xb0                             ; 176 octets pour la stack
    0x080486d6 <+14>:	call   0x8048550 <fork@plt>
-   0x080486db <+19>:	mov    DWORD PTR [esp+0xac],eax             ; child_pid @ esp+0xac = fork();
+   0x080486db <+19>:	mov    DWORD PTR [esp+0xac],eax             ; int child_pid @ esp+0xac = fork();
    0x080486e2 <+26>:	lea    ebx,[esp+0x20]                       ; input @ esp+0x20
    0x080486e6 <+30>:	mov    eax,0x0
    0x080486eb <+35>:	mov    edx,0x20
