@@ -41,6 +41,20 @@ void  test(int input, int number)
       return(decrypt(rand()));
     }
     return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));
+    return(decrypt(diff));	// LOL
 }
 
 int   main(void)
