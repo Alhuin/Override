@@ -9,7 +9,7 @@ void  decrypt(diff)
       int nb2 = 1734767456;
       int nb3 = 2070311806;
       int nb4 = 862026877;
-      char c = 0;                                       // str = "Q}|u`sfg~sf{}|a3"
+      char c = 0;                                       // str = "Q}|u`sfg~sf{}|a3" + nul
 
       int len;
       int i;
