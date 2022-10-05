@@ -161,7 +161,8 @@ nope, incorrect password...
 ```
 Quel que soit le mot de passe, il affiche "nope, incorrect password..." et return, puis de toutes façons à aucun moment il ne nous affiche le fichier .pass ou nous ouvre un shell, donc on va devoir se débrouiller tout seul.
 
-A la différence de RainFall, OverRide nous propose une iso avec un protection sur la stack: celle-ci est [non-exécutable](https://www.usenix.org/legacy/publications/library/proceedings/sec98/full_papers/full_papers/cowan/cowan_html/node21.html):
+
+La stack est [non-exécutable](https://www.usenix.org/legacy/publications/library/proceedings/sec98/full_papers/full_papers/cowan/cowan_html/node21.html):
 ```
 RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
 Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   /home/users/level01/level01
