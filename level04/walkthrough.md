@@ -30,43 +30,43 @@ Dump of assembler code for function main:
    0x080486cb <+3>:	push   edi
    0x080486cc <+4>:	push   ebx
    0x080486cd <+5>:	and    esp,0xfffffff0
-   0x080486d0 <+8>:	sub    esp,0xb0
+   0x080486d0 <+8>:	sub    esp,0xb0                             ; 176 octets pour la stack
    0x080486d6 <+14>:	call   0x8048550 <fork@plt>
-   0x080486db <+19>:	mov    DWORD PTR [esp+0xac],eax
-   0x080486e2 <+26>:	lea    ebx,[esp+0x20]
+   0x080486db <+19>:	mov    DWORD PTR [esp+0xac],eax             ; child_pid @ esp+0xac = fork();
+   0x080486e2 <+26>:	lea    ebx,[esp+0x20]                       ; input @ esp+0x20
    0x080486e6 <+30>:	mov    eax,0x0
    0x080486eb <+35>:	mov    edx,0x20
    0x080486f0 <+40>:	mov    edi,ebx
    0x080486f2 <+42>:	mov    ecx,edx
-   0x080486f4 <+44>:	rep stos DWORD PTR es:[edi],eax
-   0x080486f6 <+46>:	mov    DWORD PTR [esp+0xa8],0x0
-   0x08048701 <+57>:	mov    DWORD PTR [esp+0x1c],0x0
+   0x080486f4 <+44>:	rep stos DWORD PTR es:[edi],eax             ; memset(buffer, 0, 32);
+   0x080486f6 <+46>:	mov    DWORD PTR [esp+0xa8],0x0             ; int ptrace_return @ esp+0xa8 = 0
+   0x08048701 <+57>:	mov    DWORD PTR [esp+0x1c],0x0             ; int child_status @ esp+0x1c = 0
    0x08048709 <+65>:	cmp    DWORD PTR [esp+0xac],0x0
-   0x08048711 <+73>:	jne    0x8048769 <main+161>
+   0x08048711 <+73>:	jne    0x8048769 <main+161>                 ; if child_pid != 0:  jump <+161> 
    0x08048713 <+75>:	mov    DWORD PTR [esp+0x4],0x1
    0x0804871b <+83>:	mov    DWORD PTR [esp],0x1
-   0x08048722 <+90>:	call   0x8048540 <prctl@plt>
+   0x08048722 <+90>:	call   0x8048540 <prctl@plt>                ; prctl(1, 1);
    0x08048727 <+95>:	mov    DWORD PTR [esp+0xc],0x0
    0x0804872f <+103>:	mov    DWORD PTR [esp+0x8],0x0
    0x08048737 <+111>:	mov    DWORD PTR [esp+0x4],0x0
    0x0804873f <+119>:	mov    DWORD PTR [esp],0x0
-   0x08048746 <+126>:	call   0x8048570 <ptrace@plt>
+   0x08048746 <+126>:	call   0x8048570 <ptrace@plt>               ; ptrace(0, 0, 0, 0);
    0x0804874b <+131>:	mov    DWORD PTR [esp],0x8048903
-   0x08048752 <+138>:	call   0x8048500 <puts@plt>
+   0x08048752 <+138>:	call   0x8048500 <puts@plt>                 ; puts("Give me some shellcode, k");
    0x08048757 <+143>:	lea    eax,[esp+0x20]
    0x0804875b <+147>:	mov    DWORD PTR [esp],eax
-   0x0804875e <+150>:	call   0x80484b0 <gets@plt>
-   0x08048763 <+155>:	jmp    0x804881a <main+338>
+   0x0804875e <+150>:	call   0x80484b0 <gets@plt>                 ; gets(input);
+   0x08048763 <+155>:	jmp    0x804881a <main+338>                 ; jump <+338>
    0x08048768 <+160>:	nop
    0x08048769 <+161>:	lea    eax,[esp+0x1c]
    0x0804876d <+165>:	mov    DWORD PTR [esp],eax
-   0x08048770 <+168>:	call   0x80484f0 <wait@plt>
+   0x08048770 <+168>:	call   0x80484f0 <wait@plt>                 ; wait(&child_status);
    0x08048775 <+173>:	mov    eax,DWORD PTR [esp+0x1c]
    0x08048779 <+177>:	mov    DWORD PTR [esp+0xa0],eax
    0x08048780 <+184>:	mov    eax,DWORD PTR [esp+0xa0]
    0x08048787 <+191>:	and    eax,0x7f
    0x0804878a <+194>:	test   eax,eax
-   0x0804878c <+196>:	je     0x80487ac <main+228>
+   0x0804878c <+196>:	je     0x80487ac <main+228>                 ; if child_status & 0x7f == 0: jump <+228>
    0x0804878e <+198>:	mov    eax,DWORD PTR [esp+0x1c]
    0x08048792 <+202>:	mov    DWORD PTR [esp+0xa4],eax
    0x08048799 <+209>:	mov    eax,DWORD PTR [esp+0xa4]
@@ -74,27 +74,27 @@ Dump of assembler code for function main:
    0x080487a3 <+219>:	add    eax,0x1
    0x080487a6 <+222>:	sar    al,1
    0x080487a8 <+224>:	test   al,al
-   0x080487aa <+226>:	jle    0x80487ba <main+242>
+   0x080487aa <+226>:	jle    0x80487ba <main+242>                 ; if (child_status & 0x7f) >> 1 <= 0: jump <+242>
    0x080487ac <+228>:	mov    DWORD PTR [esp],0x804891d
-   0x080487b3 <+235>:	call   0x8048500 <puts@plt>
-   0x080487b8 <+240>:	jmp    0x804881a <main+338>
+   0x080487b3 <+235>:	call   0x8048500 <puts@plt>                 ; puts("child is exiting...");
+   0x080487b8 <+240>:	jmp    0x804881a <main+338>                 ; return(0);
    0x080487ba <+242>:	mov    DWORD PTR [esp+0xc],0x0
    0x080487c2 <+250>:	mov    DWORD PTR [esp+0x8],0x2c
    0x080487ca <+258>:	mov    eax,DWORD PTR [esp+0xac]
    0x080487d1 <+265>:	mov    DWORD PTR [esp+0x4],eax
    0x080487d5 <+269>:	mov    DWORD PTR [esp],0x3
    0x080487dc <+276>:	call   0x8048570 <ptrace@plt>
-   0x080487e1 <+281>:	mov    DWORD PTR [esp+0xa8],eax
+   0x080487e1 <+281>:	mov    DWORD PTR [esp+0xa8],eax             ; ptrace_return = ptrace(3, pid, 44, 0)
    0x080487e8 <+288>:	cmp    DWORD PTR [esp+0xa8],0xb
-   0x080487f0 <+296>:	jne    0x8048768 <main+160>
+   0x080487f0 <+296>:	jne    0x8048768 <main+160>                 ; if ptrace_return !== 11: jump <+160> (boucle)
    0x080487f6 <+302>:	mov    DWORD PTR [esp],0x8048931
-   0x080487fd <+309>:	call   0x8048500 <puts@plt>
+   0x080487fd <+309>:	call   0x8048500 <puts@plt>                 ; puts("no exec() for you");
    0x08048802 <+314>:	mov    DWORD PTR [esp+0x4],0x9
    0x0804880a <+322>:	mov    eax,DWORD PTR [esp+0xac]
    0x08048811 <+329>:	mov    DWORD PTR [esp],eax
-   0x08048814 <+332>:	call   0x8048520 <kill@plt>
+   0x08048814 <+332>:	call   0x8048520 <kill@plt>                 ; kill(child_pid, 9);
    0x08048819 <+337>:	nop
-   0x0804881a <+338>:	mov    eax,0x0
+   0x0804881a <+338>:	mov    eax,0x0                              ; return(0);
    0x0804881f <+343>:	lea    esp,[ebp-0x8]
    0x08048822 <+346>:	pop    ebx
    0x08048823 <+347>:	pop    edi
