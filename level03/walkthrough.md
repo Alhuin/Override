@@ -167,7 +167,7 @@ End of assembler dump.
      0x0804866e <+14>:	mov    DWORD PTR [ebp-0xc],eax            ; ebp-0xc = gs:0x14 (canary value)
      0x08048671 <+17>:	xor    eax,eax                            ; eax = 0
      0x08048673 <+19>:	mov    DWORD PTR [ebp-0x1d],0x757c7d51    ; nb1 @ ebp-0x1d = 1971092817     //  Ces 4 int consécutifs représententent en ascii
-     0x0804867a <+26>:	mov    DWORD PTR [ebp-0x19],0x67667360    ; nb2 @ ebp-0x19 = 1734767456     //  'u|}Qgfs`{fs~3a|}'
+     0x0804867a <+26>:	mov    DWORD PTR [ebp-0x19],0x67667360    ; nb2 @ ebp-0x19 = 1734767456     //  "Q}|u`sfg~sf{}|a3"
      0x08048681 <+33>:	mov    DWORD PTR [ebp-0x15],0x7b66737e    ; nb3 @ ebp-0x15 = 2070311806     //  bytes.fromhex('757c7d51676673607b66737e33617c7d').decode('utf-8')
      0x08048688 <+40>:	mov    DWORD PTR [ebp-0x11],0x33617c7d    ; nb4 @ ebp-0x11 = 0862026877     //
      0x0804868f <+47>:	mov    BYTE PTR [ebp-0xd],0x0             ; char c @ ebp-0xd = 0
