@@ -3,22 +3,22 @@
 #include <stdlib.h>
 #include <strings.h>
 
-int	main(void)
+int main(void)
 {
-	int		pid = fork();
-	char	*buffer;
-	int		ret = 0;
-	int		status = 0;
+  int 	pid = fork();
+  char 	buffer[32];
+  int 	ret = 0;
+  int	status = 0;
 
-	memset(buffer, 0, 32);
+  memset(buffer, 0, 32);
 
-	if (pid == 0) {
-		prctl(1, 1);
-		ptrace(0, 0, 0, 0);
-		puts("Give me some shellcode, k");
-		gets(buffer);
+  if (pid == 0) {
+    prctl(1, 1);
+    ptrace(0, 0, 0, 0);
+    puts("Give me some shellcode, k");
+    gets(buffer);
     return(0);
-	}
+  }
 
   while (ret = ptrace(3, pid, 44, 0) != 11) {
     wait(&status);
@@ -28,7 +28,7 @@ int	main(void)
     }
   }    
 
-	puts("no exec() for you");
-	kill(pid, 9);
-	return(0);
+  puts("no exec() for you");
+  kill(pid, 9);
+  return(0);
 }
