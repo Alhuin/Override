@@ -3,7 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-void  decrypt(diff)
+void  decrypt(key)
 {
     int nb1 = 1971092817;
     int nb2 = 1734767456;
@@ -18,7 +18,7 @@ void  decrypt(diff)
     i = 0;
 
     while (i < len) {
-        *(&nb1 + i) = *(&nb1 + i) ^ diff              // str[i] = str[i] ^ diff
+        *(&nb1 + i) = *(&nb1 + i) ^ key               // str[i] = str[i] ^ diff
         i++;
     }
 
