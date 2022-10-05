@@ -236,3 +236,39 @@ End of assembler dump.
   ```
 
 # Exploit
+Le programme attend un int sur stdin, puis le passe dans la fonction test() avec l'entier 322424845. Cette dernière va vérifier que notre input est plus petit que le nombre en second paramètre (322424845) de maximum 21 caractères.
+
+Si c'est le cas, elle passe la différence comme clé à la fonction decrypt(), qui va effectuer un [Xor Cipher](https://en.wikipedia.org/wiki/XOR_cipher) sur "Q}|u`sfg~sf{}|a3" et comparer le résultat avec "Congratulations!".
+
+Si la comparaison est valide il nous ouvre un shell, l'objectif est donc de trouver l'entier 322424845 - key, tel que:
+- ``XorCipher(key, "Q}|u`sfg~sf{}|a3") = "Congratulations!"``
+- `key <= 21`
+
+`python`
+```python
+encrypted = "Q}|u`sfg~sf{}|a3"
+key = -1
+decrypted = ""
+while decrypted != "Congratulations!":
+     key += 1
+     decrypted = ''.join([chr(ord(x) ^ key) for x in encrypted])
+
+print(key)
+18
+```
+
+La clé d'encryption est 18, donc notre mot de passe devrait être 322424845 - 18 = 322424827
+
+`./level03`
+```
+***********************************
+*		level03		**
+***********************************
+Password:322424827
+$ cat /home/users/level04/.pass
+kgv3tkEb9h2mLkRsPkXRfc2mHbjMxQzvb2FrgKkf
+```
+
+Une autre solution aurait été de simplement tester tous les entiers dans la range [322424824 ... 322424845]:
+
+`for i in range {322424824..322424845}; do (echo $i; cat -) | ./level03 ; done`
