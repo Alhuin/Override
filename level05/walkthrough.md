@@ -84,7 +84,4 @@ Enfin, il utilise printf pour l'afficher, sans format string en premier argument
 
 On va pouvoir exploiter le printf pour écrire où nous le souhaitons, maisle programme ne return pas et de toutes façons la stack n'est pas exécutable sur ce level donc inutile de réécrire l'EIP.
 
-Il ne reste après le printf que le call à exit(), l'objectif va donc être de [remplacer son entrée dans la dans la Global Offset Table](https://axcheron.github.io/exploit-101-format-strings/) par [un shellcode](https://www.exploit-db.com/exploits/42428).
-
-
-``
+L'objectif va donc être de [remplacer son entrée dans la dans la Global Offset Table](https://axcheron.github.io/exploit-101-format-strings/) par [un shellcode](https://www.exploit-db.com/exploits/42428).
