@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.b>
+#include <string.h>
 
 int main(void) {
   int   len = 0;
