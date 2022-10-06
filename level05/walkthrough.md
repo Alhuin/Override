@@ -27,7 +27,7 @@ Dump of assembler code for function main:
    0x08048447 <+3>:	push   edi
    0x08048448 <+4>:	push   ebx
    0x08048449 <+5>:	and    esp,0xfffffff0
-   0x0804844c <+8>:	sub    esp,0x90                           ; 144 octets pour la stack
+   0x0804844c <+8>:	sub    esp,0x90                         ; 144 octets pour la stack
    0x08048452 <+14>:	mov    DWORD PTR [esp+0x8c],0x0         ; int i @ esp+0x8c = 0
    0x0804845d <+25>:	mov    eax,ds:0x80497f0
    0x08048462 <+30>:	mov    DWORD PTR [esp+0x8],eax
