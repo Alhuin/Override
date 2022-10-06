@@ -1,5 +1,10 @@
 # Analyse
 
+```
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
+Partial RELRO   No canary found   NX disabled   No PIE          No RPATH   No RUNPATH   /home/users/level01/level01
+```
+
 ## Binaire
 
 `./level01`
