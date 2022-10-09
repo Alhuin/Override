@@ -190,8 +190,7 @@ End of assembler dump.
 
 # Exploit
 
-Le programme attend un login et un serial sur stdin, fait passer le login dans une fonction de hash.
-Si le résultat correspond au serial fourni en second argument, il nous ouvre un shell.
+Le programme attend un login et un serial sur stdin et fait passer le login dans une fonction de hash. Si le résultat correspond au serial fourni en second argument, il nous ouvre un shell.
 
 On peut afficher la valeur comparée à 0x08048866 avec gdb, pour ça il faut override le retour du ptrace de -1 à 0 pour pouvoir poursuivre l'exécution jusqu'au cmp.
 
