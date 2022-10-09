@@ -190,3 +190,56 @@ End of assembler dump.
 
 # Exploit
 
+Le programme attend un login et un serial sur stdin, fait passer le login dans une fonction de hash.
+Si le résultat correspond au serial fourni en second argument, il nous ouvre un shell.
+
+On peut afficher la valeur comparée à 0x08048866 avec gdb, pour ça il faut override le retour du ptrace de -1 à 0 pour pouvoir poursuivre l'exécution jusqu'au cmp.
+
+`gdb level06`
+```
+(gdb) break ptrace
+Breakpoint 1 at 0x80485f0
+(gdb) b * 0x08048866
+Breakpoint 2 at 0x8048866
+(gdb) r
+Starting program: /home/users/level06/level06
+***********************************
+*		level06		  *
+***********************************
+-> Enter Login: username
+***********************************
+***** NEW ACCOUNT DETECTED ********
+***********************************
+-> Enter Serial: serial
+
+Breakpoint 1, 0xf7f14990 in ptrace () from /lib32/libc.so.6
+(gdb) n
+Single stepping until exit from function ptrace,
+which has no line number information.
+0x080487ba in auth ()
+(gdb) p $eax
+$1 = -1
+(gdb) set $eax=0
+(gdb) continue
+Continuing.
+
+Breakpoint 2, 0x08048866 in auth ()
+(gdb) x/d $ebp-0x10
+0xffffd268:	6234463
+```
+
+On peut désormais se logger avec le login `username` et le serial `6234463`:
+`./level06`
+```
+***********************************
+*		level06		  *
+***********************************
+-> Enter Login: username
+***********************************
+***** NEW ACCOUNT DETECTED ********
+***********************************
+-> Enter Serial: 6234463
+Authenticated!
+$ cat /home/users/level07/.pass
+GbcPDRgsFK77LNnnuh7QyFYA2942Gp8yKj9KrWD8
+```
