@@ -9,7 +9,7 @@ int auth(char *username, unsigned_int serial) {
   size_t        len;
   unsigned int  nb;
   int           i;
-  
+
   username[strcspn(username, "\n")] = 0;
   len = strnlen(username, 32);
   
@@ -22,24 +22,12 @@ int auth(char *username, unsigned_int serial) {
     return(1);
   }
   
-  nb = (username[3] ^ 0x1337) + 0x5eeded;
-  i = 0;
+  hash = hash(login);
   
-  while (i < len) {
-    unsigned int encrypted;
-    
-    if (username[i] <= 31)      // if not ascii
-      return(1);
-    
-    // hash
-    encrypted = 0x88233b2b - (((((username[i] ^ nb) * 0x88233b2b - 0x88233b2b) >> 1) + 0x88233b2b) >> 32) * 0x539;
-    
-    nb += encrypted;
-    if (serial == nb) {
-      return(0);
-    }
-    return(1);
+  if (serial == hash) {
+    return(0);
   }
+  return(1);
 }
 
 int main(int argc, char **argv) {
