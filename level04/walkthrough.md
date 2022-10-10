@@ -117,7 +117,7 @@ Attend un changement de statut de l'enfant, s'il a été interrompu ou a quitté
 
 En sortie de boucle (l'enfant a tenté un execve()), il affiche "no exec() for you", le kill et retun(0);
 
-La stack est exécutable, mais le check sur execve() nous empêche de lancer un shellcode classique donc on va opter pour la même approche que dans le level01: un [retour a la libc](https://beta.hackndo.com/retour-a-la-libc/).
+La stack est exécutable, mais le check sur execve() nous empêche de lancer un shellcode classique donc on va effectuer un [retour a la libc](https://beta.hackndo.com/retour-a-la-libc/).
 
 Pour trouver l'offset on va devoir spécifier à gdb de suivre l'exécution du process enfant et se servir comme d'habitude du [générateur de pattern](https://wiremask.eu/tools/buffer-overflow-pattern-generator/).
 
