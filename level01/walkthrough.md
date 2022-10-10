@@ -166,14 +166,7 @@ nope, incorrect password...
 ```
 Quel que soit le mot de passe, il affiche "nope, incorrect password..." et return, puis de toutes façons à aucun moment il ne nous affiche le fichier .pass ou nous ouvre un shell, donc on va devoir se débrouiller tout seul.
 
-
-La stack est [non-exécutable](https://www.usenix.org/legacy/publications/library/proceedings/sec98/full_papers/full_papers/cowan/cowan_html/node21.html):
-```
-RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      FILE
-Partial RELRO   No canary found   NX enabled    No PIE          No RPATH   No RUNPATH   /home/users/level01/level01
-```
-
-Comme nous ne pouvons plus exécuter le shellcode situé sur la stack, nous allons changer notre technique, et nous allons appeler directement la fonction system() de la libc, en lui fournissant comme argument la chaine de caractère "/bin/sh".<br/>
+Nous allons appeler directement la fonction system() de la libc, en lui fournissant comme argument la chaine de caractère "/bin/sh".<br/>
 doc principale : https://beta.hackndo.com/retour-a-la-libc/<br/>
 
 Tout d'abord, on note que fgets() est utilisé sans protection sur un buffer à <main+164>. On peut donc faire un buffer overflow, cherchons l'offset avec un [générateur de pattern](https://wiremask.eu/tools/buffer-overflow-pattern-generator/).
