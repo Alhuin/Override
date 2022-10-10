@@ -79,7 +79,7 @@ Dump of assembler code for function main:
    0x080487a3 <+219>:	add    eax,0x1
    0x080487a6 <+222>:	sar    al,1
    0x080487a8 <+224>:	test   al,al
-   0x080487aa <+226>:	jle    0x80487ba <main+242>                 ; if (status & 0x7f) >> 1 <= 0: jump <+242>
+   0x080487aa <+226>:	jle    0x80487ba <main+242>                 ; if ((status & 0x7f) + 1) >> 1 <= 0: jump <+242>
    0x080487ac <+228>:	mov    DWORD PTR [esp],0x804891d
    0x080487b3 <+235>:	call   0x8048500 <puts@plt>                 ; puts("child is exiting...");
    0x080487b8 <+240>:	jmp    0x804881a <main+338>                 ; return(0);
